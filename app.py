@@ -3,7 +3,7 @@ import requests
 OY_API_KEY = "4e333f7b-b4ab-4133-8f43-16aefac91e23"
 
 headers = {
-    "Authorization": f"Bearer {4e333f7b-b4ab-4133-8f43-16aefac91e23}",
+    "Authorization": f"Bearer 4e333f7b-b4ab-4133-8f43-16aefac91e23",
     "Content-Type": "application/json"
 }
 
