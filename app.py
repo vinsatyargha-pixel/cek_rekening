@@ -22,7 +22,7 @@ def cek_rekening():
     }
 
     response = requests.post(
-        "https://api.oyindonesia.com/api/bank-account-inquiry",
+        "https://api-stg.oyindonesia.com/api/bank-account-inquiry",
         json=payload,
         headers=headers
     )
