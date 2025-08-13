@@ -1,50 +1,30 @@
-from flask import Flask, request, jsonify
 import requests
 
-app = Flask(__name__)
+OY_API_KEY = "4e333f7b-b4ab-4133-8f43-16aefac91e23"
 
-# Ganti API key dan URL sesuai environment
-OY_API_KEY = "4e333f7b-b4ab-4133-8f43-16aefac91e23"  # Ganti sama Production API key lo
-OY_API_URL = "https://partner.oyindonesia.com/api/bank-account-inquiry"  # Production URL
+headers = {
+    "Authorization": f"Bearer {4e333f7b-b4ab-4133-8f43-16aefac91e23}",
+    "Content-Type": "application/json"
+}
 
-# Kalau mau pake staging:
-# OY_API_KEY = "4e333f7b-b4ab-4133-8f43-16aefac91e23"
-# OY_API_URL = "https://api-stg.oyindonesia.com/api/bank-account-inquiry"
+payload = {
+    "bank_code": "014",          # contoh bank code yang valid, cek dokumentasi
+    "account_number": "1234567890"  # contoh nomor rekening yang valid
+}
 
-@app.route('/cek-rekening', methods=['POST'])
-def cek_rekening():
-    try:
-        data = request.get_json()
-        bank_code = data.get('bank_code')
-        account_number = data.get('account_number')
-
-        if not bank_code or not account_number:
-            return jsonify({"error": "bank_code dan account_number wajib diisi"}), 400
-
-        headers = {
-            "Authorization": f"Bearer {OY_API_KEY}",
-            "Content-Type": "application/json"
-        }
-
-        payload = {
-            "bank_code": bank_code,
-            "account_number": account_number
-        }
-
-        response = requests.post(OY_API_URL, json=payload, headers=headers)
-
-        if response.status_code == 200:
-            return jsonify(response.json())
-        else:
-            return jsonify({
-                "error": "Gagal ambil data dari OY",
-                "status_code": response.status_code,
-                "text": response.text
-            }), 500
-
-    except Exception as e:
-        return jsonify({"error": "Terjadi kesalahan pada server", "message": str(e)}), 500
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
+try:
+    response = requests.post(
+        "https://api-stg.oyindonesia.com/api/bank-account-inquiry",
+        json=payload,
+        headers=headers,
+        timeout=10  # timeout biar gak lama nge-hang kalau error
+    )
+    print(f"Status Code: {response.status_code}")
+    print(f"Response JSON: {response.json()}")
+except requests.exceptions.Timeout:
+    print("Error: Request timeout")
+except requests.exceptions.RequestException as e:
+    print(f"Error: {e}")
+except ValueError:
+    # Kalau response bukan JSON valid
+    print(f"Non-JSON Response: {response.text}")
