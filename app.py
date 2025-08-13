@@ -33,4 +33,9 @@ def cek_rekening():
         return jsonify({
             "error": "Gagal ambil data dari OY",
             "status_code": response.status_code,
+            "text": response.text
+        }), 500
 
+
+if __name__ == '__main__':
+    app.run(debug=True)
