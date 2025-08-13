@@ -21,17 +21,16 @@ def cek_rekening():
         "account_number": account_number
     }
 
-    response = requests.post("https://api.oyindonesia.com/api/bank-account-inquiry",
-                             json=payload, headers=headers)
+    response = requests.post(
+        "https://api.oyindonesia.com/api/bank-account-inquiry",
+        json=payload,
+        headers=headers
+    )
+
     if response.status_code == 200:
-    return jsonify(response.json())
-else:
-    return jsonify({
-        "error": "Gagal ambil data dari OY",
-        "status_code": response.status_code,
-        "text": response.text
-    }), 500
+        return jsonify(response.json())
+    else:
+        return jsonify({
+            "error": "Gagal ambil data dari OY",
+            "status_code": response.status_code,
 
-
-if __name__ == '__main__':
-    app.run(debug=True)
