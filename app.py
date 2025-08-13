@@ -22,7 +22,7 @@ def cek_rekening():
     }
 
     response = requests.post(
-        "https://sandbox.oyindonesia.com/api/bank-account-inquiry",
+        "https://api-stg.oyindonesia.com/api/remit-status",
         json=payload,
         headers=headers
     )
